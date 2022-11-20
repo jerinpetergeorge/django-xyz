@@ -13,3 +13,4 @@ media
 
 .venv
 .idea/
+.fuse_*
