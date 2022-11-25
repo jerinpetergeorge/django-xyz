@@ -5,9 +5,9 @@ from environ import Env
 env = Env()
 
 # option to attach an env file
-# default location is `.env-dir/local`
+# default location is `.envs/env-local.env`
 # if file not found, simply ignored
-env.read_env(env("ENV_FILE", default=".envs/env.local"))
+env.read_env(env("ENV_FILE", default=".envs/env-local.env"))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,25 +28,33 @@ ALLOWED_HOSTS = [
 ]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
-INSTALLED_APPS = [
+BUILTIN_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "django.contrib.sites",
-    # Third-party
+]
+THIRD_PARTY_APPS = [
+    "whitenoise.runserver_nostatic",
     "allauth",
     "allauth.account",
     "crispy_forms",
     "crispy_bootstrap5",
     "debug_toolbar",
     "django_extensions",
-    # Local
+]
+
+LOCAL_APPS = [
     "accounts",
     "pages",
+]
+INSTALLED_APPS = [
+    *BUILTIN_APPS,
+    *THIRD_PARTY_APPS,
+    *LOCAL_APPS,
 ]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#middleware
@@ -87,7 +95,6 @@ TEMPLATES = [
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {"default": env.db()}
-
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
@@ -132,7 +139,6 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # http://whitenoise.evans.io/en/stable/django.html#add-compression-and-caching-support
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
 
 # django-crispy-forms
 # https://django-crispy-forms.readthedocs.io/en/latest/install.html#template-packs
