@@ -45,6 +45,7 @@ THIRD_PARTY_APPS = [
     "crispy_bootstrap5",
     "debug_toolbar",
     "django_extensions",
+    "rest_framework",
 ]
 
 LOCAL_APPS = [
@@ -177,6 +178,17 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
+
+# DRF Settings
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny",
+    ],
+}
 
 # Development Environment Items
 DEV_EMAIL = env("DEV_EMAIL")
