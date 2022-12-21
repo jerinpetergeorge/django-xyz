@@ -4,16 +4,24 @@
 #
 #    pip-compile --output-file=requirements/compiled-dev.txt --resolver=backtracking requirements/dev.txt
 #
+amqp==5.1.1
+    # via kombu
 asgiref==3.5.2
     # via django
 asttokens==2.1.0
     # via stack-data
+async-timeout==4.0.2
+    # via redis
 attrs==22.1.0
     # via pytest
 backcall==0.2.0
     # via ipython
+billiard==3.6.4.0
+    # via celery
 black==22.10.0
     # via -r requirements/lint.txt
+celery==5.2.7
+    # via -r requirements/base.txt
 certifi==2022.9.24
     # via requests
 cffi==1.15.1
@@ -23,7 +31,18 @@ cfgv==3.3.1
 charset-normalizer==2.1.1
     # via requests
 click==8.1.3
-    # via black
+    # via
+    #   black
+    #   celery
+    #   click-didyoumean
+    #   click-plugins
+    #   click-repl
+click-didyoumean==0.3.0
+    # via celery
+click-plugins==1.1.1
+    # via celery
+click-repl==0.2.0
+    # via celery
 coverage==6.5.0
     # via -r requirements/test.txt
 crispy-bootstrap5==0.6
@@ -84,6 +103,8 @@ isort==5.10.1
     # via -r requirements/lint.txt
 jedi==0.18.1
     # via ipython
+kombu==5.2.4
+    # via celery
 matplotlib-inline==0.1.6
     # via ipython
 mccabe==0.7.0
@@ -113,7 +134,9 @@ pluggy==1.0.0
 pre-commit==2.20.0
     # via -r requirements/lint.txt
 prompt-toolkit==3.0.32
-    # via ipython
+    # via
+    #   click-repl
+    #   ipython
 psycopg2-binary==2.9.3
     # via -r requirements/base.txt
 ptyprocess==0.7.0
@@ -141,9 +164,13 @@ pytest-django==4.5.2
 python3-openid==3.2.0
     # via django-allauth
 pytz==2022.6
-    # via djangorestframework
+    # via
+    #   celery
+    #   djangorestframework
 pyyaml==6.0
     # via pre-commit
+redis==4.4.0
+    # via -r requirements/base.txt
 requests==2.28.1
     # via
     #   django-allauth
@@ -151,7 +178,9 @@ requests==2.28.1
 requests-oauthlib==1.3.1
     # via django-allauth
 six==1.16.0
-    # via asttokens
+    # via
+    #   asttokens
+    #   click-repl
 sqlparse==0.4.3
     # via
     #   django
@@ -170,6 +199,11 @@ traitlets==5.5.0
     #   matplotlib-inline
 urllib3==1.26.12
     # via requests
+vine==5.0.0
+    # via
+    #   amqp
+    #   celery
+    #   kombu
 virtualenv==20.16.7
     # via pre-commit
 wcwidth==0.2.5

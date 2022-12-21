@@ -194,3 +194,7 @@ REST_FRAMEWORK = {
 DEV_EMAIL = env("DEV_EMAIL")
 DEV_PASSWORD = env("DEV_PASSWORD")
 DEV_FULL_NAME = env("DEV_FULL_NAME")
+
+# Celery Config
+# https://docs.celeryq.dev/en/stable/userguide/configuration.html
+CELERY_BROKER_URL = env("CELERY_BROKER_URL", default="redis://localhost:6379/5")
