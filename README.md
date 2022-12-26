@@ -1,1 +1,1 @@
-Repository courtesy - [wsvincent/djangox](https://github.com/wsvincent/djangox)
+Personal version of [wsvincent/djangox](https://github.com/wsvincent/djangox)
