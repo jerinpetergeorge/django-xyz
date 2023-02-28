@@ -1,4 +1,4 @@
-FROM python:3.10-slim-buster
+FROM python:3.10-slim-buster as base
 
 LABEL maintainer="Jerin Peter George <jerinpetergeorge@gmail.com>"
 
@@ -13,5 +13,11 @@ WORKDIR /app
 # Copy local project
 COPY . /app/
 
-# Install dependencies
-RUN pip install pip -U && pip install --no-cache-dir -r requirements.txt -U
+# Installing pip packages
+RUN pip install pip -U
+
+FROM base as dev
+RUN pip install -r requirements/compiled/dev.txt -U
+
+FROM base AS prod
+RUN pip install -r requirements/compiled/production.txt -U
