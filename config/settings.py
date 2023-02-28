@@ -37,13 +37,17 @@ BUILTIN_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
 ]
-THIRD_PARTY_APPS = [
+DEBUG_TRUE_APPS = [
+    # Apps that should only load in debug mode
+    "debug_toolbar",
     "whitenoise.runserver_nostatic",
+]
+
+THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "crispy_forms",
     "crispy_bootstrap5",
-    "debug_toolbar",
     "django_extensions",
     "rest_framework",
 ]
@@ -58,18 +62,23 @@ INSTALLED_APPS = [
     *LOCAL_APPS,
 ]
 
+if DEBUG:
+    INSTALLED_APPS += DEBUG_TRUE_APPS
+
 # https://docs.djangoproject.com/en/dev/ref/settings/#middleware
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+if DEBUG:
+    MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#root-urlconf
 ROOT_URLCONF = "config.urls"
