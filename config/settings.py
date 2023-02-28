@@ -7,7 +7,7 @@ env = Env()
 # option to attach an env file
 # default location is `.envs/env-local.env`
 # if file not found, simply ignored
-env.read_env(env("ENV_FILE", default=".envs/env-local.env"))
+env.read_env(env("ENV_FILE", default=".envs/.env"))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
