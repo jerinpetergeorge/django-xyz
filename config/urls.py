@@ -13,9 +13,15 @@ urlpatterns = [
     path("", include("pages.urls")),
 ]
 
-if settings.DEBUG:
+try:
     import debug_toolbar
 
+    _installed_debug_toolbar = True
+except (ImportError, ModuleNotFoundError):
+    _installed_debug_toolbar = False
+    pass
+
+if _installed_debug_toolbar and settings.DEBUG:
     urlpatterns = [
         path("__debug__/", include(debug_toolbar.urls)),
     ] + urlpatterns
