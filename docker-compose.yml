@@ -1,14 +1,61 @@
-version: '3.9'
+version: '3.8'
 
 services:
-  web:
-    container_name: dj-web
+#  db:
+#    image: postgres:13
+#    container_name: django-db
+#    environment:
+#      - POSTGRES_PASSWORD=password
+#      - POSTGRES_DB=django_db
+#      - POSTGRES_USER=django_user
+#      - POSTGRES_HOST_AUTH_METHOD=trust
+  redis:
+    image: redis:alpine
+    container_name: django-redis
+
+  scheduler:
     build:
-      context: .
-      dockerfile: Dockerfile
-      target: dev
+        context: .
+        dockerfile: Dockerfile
+        target: dev
+    command: celery -A config beat -l DEBUG
+    container_name: django-scheduler
+    volumes:
+      - .:/app
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - DATABASE_URL=sqlite:///django-docker-db.sqlite3
+    env_file:
+      - .envs/.env
+
+  worker:
+    build:
+        context: .
+        dockerfile: Dockerfile
+        target: dev
+    command: celery -A django worker -l DEBUG
+    container_name: django-worker
+    volumes:
+      - .:/app
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - DATABASE_URL=sqlite:///django-docker-db.sqlite3
+    env_file:
+      - .envs/.env
+
+  web:
+    build:
+        context: .
+        dockerfile: Dockerfile
+        target: dev
     command: python manage.py runserver 0.0.0.0:8000
+    container_name: django-web
     volumes:
       - .:/app
     ports:
       - "8000:8000"
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - DATABASE_URL=sqlite:///django-docker-db.sqlite3
+    env_file:
+      - .envs/.env
